@@ -48,7 +48,8 @@ async function downloadDistributionTool () {
             };
             options.cwd = destPath; //`${homedir}\disttool\\`;
 
-            await exec.exec('cmd', ['/k', 'DistributionTool.exe', '/?'], options);
+            //await exec.exec('cmd', ['/k', 'DistributionTool.exe', '/?'], options);
+            await exec.exec('cmd', ['/c', 'DistributionTool.exe', '/?'], options);
             core.info(`myOutput: ${myOutput}`);
             core.info(`myError: ${myError}`);
         }
