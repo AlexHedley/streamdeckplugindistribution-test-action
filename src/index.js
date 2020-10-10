@@ -8,14 +8,14 @@ const os = require('os');
 
 //const cachedFileName = "DistributionTool.exe";
 const executableFileName = "DistributionTool";
-const executableFileNameWin = "DistributionTool.exe";
 const version = '1.0.0';
 
 const homedir = os.homedir();
 core.info(`homedir: ${homedir}`);
 //await io.mkdirP('path/to/make');
 
-const destPath = '';
+let destPath = '';
+let toolName = '';
 
 ///
 /// Download Distribution Tool
@@ -39,6 +39,9 @@ async function downloadDistributionTool () {
             const distributionToolExtractedFolder = await tc.extractZip(distributionToolPath, destPath);
             core.info(`distributionToolExtractedFolder: ${distributionToolExtractedFolder}`);
 
+            const executableFileNameWin = "DistributionTool.exe";
+            toolName = executableFileNameWin;
+
             // Cache
             const cachedPath = await tc.cacheFile(`${distributionToolExtractedFolder}${executableFileNameWin}`, executableFileNameWin, executableFileName, version);
             core.info(`cachedPath: ${cachedPath}`);
@@ -51,8 +54,10 @@ async function downloadDistributionTool () {
             const distributionToolPath = await tc.downloadTool('https://developer.elgato.com/documentation/stream-deck/distributiontool/DistributionToolMac.zip');
             const distributionToolExtractedFolder = await tc.extractXar(distributionToolPath, `${homedir}/disttool`);
             
+            toolName = executableFileName;
+
             // Cache
-            const cachedPath = await tc.cacheFile(`${distributionToolExtractedFolder}${executableFileNameWin}`, executableFileName, executableFileName, version);
+            const cachedPath = await tc.cacheFile(`${distributionToolExtractedFolder}${executableFileName}`, executableFileName, executableFileName, version);
             core.info(`cachedPath: ${cachedPath}`);
         }
         else {
