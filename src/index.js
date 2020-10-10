@@ -25,8 +25,28 @@ async function downloadDistributionTool () {
         if (process.platform === 'win32') {
             core.info('attempting download of win dist tool');
             
+            const destPath = `${homedir}\disttool`;
+
             const distributionToolPath = await tc.downloadTool(' https://developer.elgato.com/documentation/stream-deck/distributiontool/DistributionToolWindows.zip');
-            const distributionToolExtractedFolder = await tc.extractZip(distributionToolPath, `${homedir}/disttool`);
+            const distributionToolExtractedFolder = await tc.extractZip(distributionToolPath, destPath);
+
+            let myOutput = '';
+            let myError = '';
+
+            const options = {};
+            options.listeners = {
+                stdout: (data) => {
+                    myOutput += data.toString();
+                },
+                stderr: (data) => {
+                    myError += data.toString();
+                }
+            };
+            options.cwd = destPath; //`${homedir}\disttool`;
+
+            await exec.exec('cmd', 'dir', options);
+            core.info(`myOutput: ${myOutput}`);
+            core.info(`myError: ${myError}`);
         }
         else if (process.platform === 'darwin') {
             core.info('attempting download of mac dist tool');
