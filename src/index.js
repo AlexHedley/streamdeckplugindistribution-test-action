@@ -37,7 +37,8 @@ async function downloadDistributionTool () {
             core.info(`distributionToolExtractedFolder: ${distributionToolExtractedFolder}`);
 
             // Cache
-            const cachedPath = await tc.cacheFile(distributionToolExtractedFolder, `${executableFileName}.exe`, executableFileName, version);
+            //const cachedPath = await tc.cacheFile(distributionToolExtractedFolder, `${executableFileName}.exe`, executableFileName, version);
+            const cachedPath = await tc.cacheFile(`${distributionToolExtractedFolder}${executableFileName}`, `${executableFileName}.exe`, executableFileName, version);
             core.info(`cachedPath: ${cachedPath}`);
         }
         else if (process.platform === 'darwin') {
