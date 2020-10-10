@@ -46,7 +46,7 @@ async function downloadDistributionTool () {
                     myError += data.toString();
                 }
             };
-            options.cwd = destPath; //`${homedir}\\disttool\\`;
+            //options.cwd = destPath; //`${homedir}\\disttool\\`;
 
             //await exec.exec('cmd', ['/k', 'DistributionTool.exe', '/?'], options);
             //await exec.exec('cmd', ['/c', 'DistributionTool.exe', '/?'], options);
@@ -54,18 +54,26 @@ async function downloadDistributionTool () {
             //core.info(`myError: ${myError}`);
                       
             // Create an output folder
-            //await exec.exec('cmd', ['c', 'mkdir', 'output'], options);
-            await io.mkdirP(`${homedir}\\output\\`);
+            //await exec.exec('cmd', ['/c', 'mkdir', 'output'], options);
+            const outputPath = `${homedir}\\output\\`;
+            await io.mkdirP(outputPath);
+            
+            options.cwd = homedir;
+            await exec.exec('cmd', ['/c', 'dir'], options);
+            core.info(`myOutput: ${myOutput}`);
+            core.info(`myError: ${myError}`);
 
             const plugin_path = core.getInput("plugin_path");
             // /work/ - Checkout puts in this folder.
             //DistributionTool.exe -b -i com.elgato.counter.sdPlugin -o output
             //DistributionTool.exe -b -i "..\work\src\com.elgato.counter.sdPlugin" -o "..\output"
+            options.cwd = destPath;
             await exec.exec('cmd', ['/c', 'DistributionTool.exe', '-b', '-i', `..\\work\\${plugin_path}`, '-o', '..\\output'], options);
             core.info(`myOutput: ${myOutput}`);
             core.info(`myError: ${myError}`);
-
-            await exec.exec('cmd', ['/c', 'dir', '..\\output'], options);
+            
+            options.cwd = outputPath;
+            await exec.exec('cmd', ['/c', 'dir'], options);
             core.info(`myOutput: ${myOutput}`);
             core.info(`myError: ${myError}`);
         }
