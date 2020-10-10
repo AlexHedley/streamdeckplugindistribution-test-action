@@ -1,0 +1,24 @@
+{
+  "name": "streamdeckplugindistribution-test-action",
+  "version": "0.1.0",
+  "description": "StreamDeck Plugin Distribution Action",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexHedley/streamdeckplugindistribution-test-action.git"
+  },
+  "keywords": [],
+  "author": "AlexHedley",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlexHedley/streamdeckplugindistribution-test-action/issues"
+  },
+  "homepage": "https://github.com/AlexHedley/streamdeckplugindistribution-test-action#readme",
+  "dependencies": {
+    "@actions/core": "^1.2.6",
+    "@actions/github": "^4.0.0"
+  }
+}

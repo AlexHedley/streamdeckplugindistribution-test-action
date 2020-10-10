@@ -1,0 +1,5 @@
+name: 'StreamDeck Plugin Distribution Action'
+description: 'Convert a StreamDeck Plugin from a .sdPlugin to a .streamDeckPlugin'
+runs:
+  using: 'node12'
+  main: 'src/index.js'
