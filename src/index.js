@@ -61,11 +61,11 @@ async function downloadDistributionTool () {
             // /work/ - Checkout puts in this folder.
             //DistributionTool.exe -b -i com.elgato.counter.sdPlugin -o output
             //DistributionTool.exe -b -i "..\work\src\com.elgato.counter.sdPlugin" -o "..\output"
-            await exec.exec('cmd', ['/k', 'DistributionTool.exe', '-b', '-i', `..\\work\\${plugin_path}`, '-o', '..\\output'], options);
+            await exec.exec('cmd', ['/c', 'DistributionTool.exe', '-b', '-i', `..\\work\\${plugin_path}`, '-o', '..\\output'], options);
             core.info(`myOutput: ${myOutput}`);
             core.info(`myError: ${myError}`);
-            
-            await exec.exec('cmd', ['/k', 'dir', '..\\output'], options);
+
+            await exec.exec('cmd', ['/c', 'dir', '..\\output'], options);
             core.info(`myOutput: ${myOutput}`);
             core.info(`myError: ${myError}`);
         }
