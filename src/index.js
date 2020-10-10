@@ -58,7 +58,16 @@ async function downloadDistributionTool () {
             const outputPath = `${homedir}\\output\\`;
             await io.mkdirP(outputPath);
             
+            // Home Folder
+            core.info('HOME');
             options.cwd = homedir;
+            await exec.exec('cmd', ['/c', 'dir'], options);
+            core.info(`myOutput: ${myOutput}`);
+            core.info(`myError: ${myError}`);
+
+            // Distribution Tool Folder
+            core.info('DISTTOOL');
+            options.cwd = destPath;
             await exec.exec('cmd', ['/c', 'dir'], options);
             core.info(`myOutput: ${myOutput}`);
             core.info(`myError: ${myError}`);
@@ -72,6 +81,15 @@ async function downloadDistributionTool () {
             core.info(`myOutput: ${myOutput}`);
             core.info(`myError: ${myError}`);
             
+            //Environment variables
+            //https://docs.github.com/en/free-pro-team@latest/actions/reference/environment-variables
+            //GITHUB_WORKSPACE
+            //The GitHub workspace directory path.
+            //The workspace directory is a copy of your repository if your workflow uses the actions/checkout action.
+            //If you don't use the actions/checkout action, the directory will be empty. For example, /home/runner/work/my-repo-name/my-repo-name.
+
+            // Output Folder
+            core.info('OUTPUT');
             options.cwd = outputPath;
             await exec.exec('cmd', ['/c', 'dir'], options);
             core.info(`myOutput: ${myOutput}`);
@@ -104,6 +122,8 @@ async function run () {
         const plugin_path = core.getInput("plugin_path");
         core.info(`plugin_path: ${plugin_path}`);
 
+        core.info(`GITHUB_WORKSPACE: ${process.env.GITHUB_WORKSPACE}`);
+        
         await downloadDistributionTool()
     } catch (error) {
         core.setFailed(error.message)
