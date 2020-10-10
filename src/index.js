@@ -45,8 +45,7 @@ async function downloadDistributionTool () {
 
             const distributionToolPath = await tc.downloadTool(' https://developer.elgato.com/documentation/stream-deck/distributiontool/DistributionToolWindows.zip');
             const distributionToolExtractedFolder = await tc.extractZip(distributionToolPath, destPath);
-            core.info(`distributionToolExtractedFolder: ${distributionToolExtractedFolder}`);
-
+            
             const executableFileNameWin = "DistributionTool.exe";
             toolName = executableFileNameWin;
 
@@ -60,7 +59,7 @@ async function downloadDistributionTool () {
             destPath = `${homedir}/disttool/`;
             
             const distributionToolPath = await tc.downloadTool('https://developer.elgato.com/documentation/stream-deck/distributiontool/DistributionToolMac.zip');
-            const distributionToolExtractedFolder = await tc.extractZip(distributionToolPath, `${homedir}/disttool`);
+            const distributionToolExtractedFolder = await tc.extractZip(distributionToolPath, destPath);
             
             toolName = executableFileName;
 
@@ -72,6 +71,8 @@ async function downloadDistributionTool () {
             // Linux?
             core.warning("is this linux? Isn't a tool to support this platform");
         }
+
+        core.info(`distributionToolExtractedFolder: ${distributionToolExtractedFolder}`);
     
     } catch (error) {
         core.error(`Error ${error}, action may still succeed though`);
