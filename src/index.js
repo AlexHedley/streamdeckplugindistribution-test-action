@@ -89,6 +89,9 @@ function getExeNameForPlatform () {
     return exeName;
 }
 
+//
+// List Directory
+//
 async function listDir(directory) {
     //C:\hostedtoolcache\windows\DistributionTool\1.0.0\x64
 
@@ -127,23 +130,19 @@ async function run () {
         
         var exeName = getExeNameForPlatform();
 
-        await listDir('C:\\hostedtoolcache\\windows\\DistributionTool\\1.0.0\\x64\\');
+        //await listDir('C:\\hostedtoolcache\\windows\\DistributionTool\\1.0.0\\x64\\');
 
         let toolPath = await tc.find(exeName, version);
         core.info(`toolPath: ${toolPath}`);
 
 		if (!toolPath) {
             core.info('Download');
-			//toolPath = await download(version, platform, arch);
             await downloadDistributionTool();
 		}
         else {
             core.info('Use from Cache');
             destPath = toolPath; //?
         }
-
-        //await exec.exec('DistributionTool.exe /?');
-        //await exec.exec(`${destPath}DistributionTool.exe /?`);
 
         let myOutput = '';
         let myError = '';
@@ -157,56 +156,17 @@ async function run () {
                 myError += data.toString();
             }
         };
-        //options.cwd = destPath; //`${homedir}\\disttool\\`;
 
-        //await exec.exec('cmd', ['/k', 'DistributionTool.exe', '/?'], options);
-        //await exec.exec('cmd', ['/c', 'DistributionTool.exe', '/?'], options);
-        //core.info(`myOutput: ${myOutput}`);
-        //core.info(`myError: ${myError}`);
-                    
         // Create an output folder
         //await exec.exec('cmd', ['/c', 'mkdir', 'output'], options);
         const outputPath = `${homedir}\\output\\`;
         await io.mkdirP(outputPath);
         
-        // // Home Folder
-        // core.info('HOME');
-        // options.cwd = homedir;
-        // await exec.exec('cmd', ['/c', 'dir'], options);
-        // core.info(`myOutput: ${myOutput}`);
-        // core.info(`myError: ${myError}`);
-
-        // // Distribution Tool Folder
-        // core.info('DISTTOOL');
-        // options.cwd = destPath;
-        // await exec.exec('cmd', ['/c', 'dir'], options);
-        // core.info(`myOutput: ${myOutput}`);
-        // core.info(`myError: ${myError}`);
-
-        //const plugin_path = core.getInput("plugin_path"); // src\com.elgato.counter.sdPlugin
-        // TODO: swap \ for / depending on OS.
-        // /work/ - Checkout puts in this folder.
-        //DistributionTool.exe -b -i com.elgato.counter.sdPlugin -o output
-        //DistributionTool.exe -b -i "..\work\src\com.elgato.counter.sdPlugin" -o "..\output"
         options.cwd = destPath;
         await exec.exec('cmd', ['/c', toolName, '-b', '-i', `${process.env.GITHUB_WORKSPACE}\\${plugin_path}`, '-o', '..\\output'], options);
         core.info(`myOutput: ${myOutput}`);
         core.info(`myError: ${myError}`);
         
-        //Environment variables
-        //https://docs.github.com/en/free-pro-team@latest/actions/reference/environment-variables
-        //GITHUB_WORKSPACE
-        //The GitHub workspace directory path.
-        //The workspace directory is a copy of your repository if your workflow uses the actions/checkout action.
-        //If you don't use the actions/checkout action, the directory will be empty. For example, /home/runner/work/my-repo-name/my-repo-name.
-
-        // // Output Folder
-        // core.info('OUTPUT');
-        // options.cwd = outputPath;
-        // await exec.exec('cmd', ['/c', 'dir'], options);
-        // core.info(`myOutput: ${myOutput}`);
-        // core.info(`myError: ${myError}`);
-
         var file = plugin_path.split("\\");
         var fileArray = file[1].split(".");
         fileArray.pop();
