@@ -45,7 +45,8 @@ async function downloadDistributionTool () {
 
             const distributionToolPath = await tc.downloadTool(' https://developer.elgato.com/documentation/stream-deck/distributiontool/DistributionToolWindows.zip');
             const distributionToolExtractedFolder = await tc.extractZip(distributionToolPath, destPath);
-            
+            core.info(`distributionToolExtractedFolder: ${distributionToolExtractedFolder}`);
+
             const executableFileNameWin = "DistributionTool.exe";
             toolName = executableFileNameWin;
 
@@ -60,7 +61,8 @@ async function downloadDistributionTool () {
             
             const distributionToolPath = await tc.downloadTool('https://developer.elgato.com/documentation/stream-deck/distributiontool/DistributionToolMac.zip');
             const distributionToolExtractedFolder = await tc.extractZip(distributionToolPath, destPath);
-            
+            core.info(`distributionToolExtractedFolder: ${distributionToolExtractedFolder}`);
+
             toolName = executableFileName;
 
             // Cache
@@ -72,8 +74,6 @@ async function downloadDistributionTool () {
             core.warning("is this linux? Isn't a tool to support this platform");
         }
 
-        core.info(`distributionToolExtractedFolder: ${distributionToolExtractedFolder}`);
-    
     } catch (error) {
         core.error(`Error ${error}, action may still succeed though`);
         core.setFailed(error.message);
@@ -163,7 +163,7 @@ async function createDistribution() {
 
     } else if (process.platform === 'darwin') {
         
-        await exec.exec(toolName, ['-b', '-i', `${process.env.GITHUB_WORKSPACE}/${plugin_path}`, '-o', '../output'], options);    
+        await exec.exec(`${destPath}${toolName}`, ['-b', '-i', `${process.env.GITHUB_WORKSPACE}/${plugin_path}`, '-o', '../output'], options);    
 
     } else {
     }
@@ -231,7 +231,8 @@ async function run () {
 
         const outputPath = await createFolderForPlatform();
         core.info(`outputPath: ${outputPath}`);
-        
+
+        core.info(`destPath: ${destPath}`);
         await createDistribution();
         
         var file = plugin_path.split("\\");
