@@ -34,7 +34,7 @@ async function downloadDistributionTool () {
 
             //await exec.exec('DistributionTool.exe /?');
             //await exec.exec(`${destPath}DistributionTool.exe /?`);
-            
+
             let myOutput = '';
             let myError = '';
 
@@ -103,7 +103,7 @@ async function downloadDistributionTool () {
             const pluginName = fileArray.join(".");
             core.info(`pluginName: ${pluginName}`);
 
-            const pluginOutputPath = `${outputPath}\\${pluginName}.streamDeckPlugin`;
+            const pluginOutputPath = `${outputPath}${pluginName}.streamDeckPlugin`;
             // C:\Users\runneradmin\output\com.elgato.counter.streamDeckPlugin
             core.setOutput("plugin_output_path", pluginOutputPath);
         }
