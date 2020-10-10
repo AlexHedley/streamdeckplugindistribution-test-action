@@ -90,12 +90,60 @@ function getExeNameForPlatform () {
     if (process.platform === 'win32') {
         exeName = 'DistributionTool.exe';
     } else if (process.platform === 'darwin') {
-        exeName = 'DistributionTool'
+        exeName = 'DistributionTool';
     } else {
         exeName = '';
     }
 
     return exeName;
+}
+
+
+//
+// Fix Path For Platform
+//
+function fixPathForPlatform(path) {
+
+    if (process.platform === 'win32') {
+        path = path.replace("/", "\\");
+    } else if (process.platform === 'darwin') {
+        path = path.replace("\\", "/");
+    } else {
+    }
+
+    return path;
+}
+
+
+//
+// Get Plugin Name For Platform
+//
+function getPluginNameForPlatform() {
+
+    let file = '';
+
+    if (process.platform === 'win32') {
+        
+        //file = file.replace("/", "\\")
+        file = plugin_path.split("\\");
+        
+    } else if (process.platform === 'darwin') {
+        
+        //file = file.replace("\\", "/");
+        file = plugin_path.split("/");
+
+    } else {
+    }
+
+    // TODO: Check there are 2 items.
+    var fileArray = file[1].split(".");
+    // com.elgato.counter.sdPlugin
+    fileArray.pop(); // remove "sdPlugin"
+    const pluginName = fileArray.join(".");
+
+    core.info(`pluginName: ${pluginName}`);
+    
+    return pluginName;
 }
 
 
@@ -111,22 +159,6 @@ async function listDir(directory) {
     await exec.exec('cmd', ['/c', 'dir'], options);
     core.info(`myOutput: ${myOutput}`);
     core.info(`myError: ${myError}`);
-}
-
-
-//
-// Fix Path For Platform
-//
-function fixPathForPlatform(path) {
-
-    if (process.platform === 'win32') {
-        path = path.replace("/", "\\")
-    } else if (process.platform === 'darwin') {
-        path = path.replace("\\", "/")
-    } else {
-    }
-
-    return path;
 }
 
 
@@ -235,11 +267,7 @@ async function run () {
         core.info(`destPath: ${destPath}`);
         await createDistribution();
         
-        var file = plugin_path.split("\\");
-        var fileArray = file[1].split(".");
-        fileArray.pop();
-        const pluginName = fileArray.join(".");
-        core.info(`pluginName: ${pluginName}`);
+        const pluginName = getPluginNameForPlatform();
 
         const pluginOutputPath = `${outputPath}${pluginName}.streamDeckPlugin`;
         // C:\Users\runneradmin\output\com.elgato.counter.streamDeckPlugin
