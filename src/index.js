@@ -76,6 +76,10 @@ async function run () {
     core.info('run started');
 
     try {
+
+        const plugin_path = core.getInput("plugin_path");
+        core.info(`plugin_path: ${plugin_path}`);
+        
         await downloadDistributionTool()
     } catch (error) {
         core.setFailed(error.message)

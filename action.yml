@@ -1,5 +1,11 @@
 name: 'StreamDeck Plugin Distribution Action'
 description: 'Convert a StreamDeck Plugin from a .sdPlugin to a .streamDeckPlugin'
+inputs:
+  plugin_path:  # id of input
+    description: 'The path of the .sdPlugin folder.'
+    required: false
+    #required: true
+    #default: 'hello-world.sdPlugin'
 runs:
   using: 'node12'
   main: 'src/index.js'
