@@ -16,6 +16,7 @@ core.info(`homedir: ${homedir}`);
 
 let destPath = '';
 let toolName = '';
+let plugin_path = '';
 
 let myOutput = '';
 let myError = '';
@@ -165,7 +166,7 @@ async function run () {
 
     try {
 
-        const plugin_path = core.getInput("plugin_path"); // src\com.elgato.counter.sdPlugin
+        plugin_path = core.getInput("plugin_path"); // src\com.elgato.counter.sdPlugin
         core.info(`plugin_path: ${plugin_path}`);
 
         core.info(`GITHUB_WORKSPACE: ${process.env.GITHUB_WORKSPACE}`);
