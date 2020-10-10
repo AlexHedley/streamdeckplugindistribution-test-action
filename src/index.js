@@ -127,7 +127,7 @@ async function run () {
         
         var exeName = getExeNameForPlatform();
 
-        await listDir('C:\\hostedtoolcache\\windows\\DistributionTool\\1.0.0\\x64');
+        await listDir('C:\\hostedtoolcache\\windows\\DistributionTool\\1.0.0\\x64\\');
 
         let toolPath = await tc.find(exeName, version);
         core.info(`toolPath: ${toolPath}`);
