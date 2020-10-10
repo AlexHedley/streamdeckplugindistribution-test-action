@@ -1,9 +1,10 @@
 const core = require("@actions/core");
+const exec = require('@actions/exec');
 const github = require("@actions/github");
-const tc = require("@actions/tool-cache");
 const io = require('@actions/io');
-const os = require('os');
+const tc = require("@actions/tool-cache");
 
+const os = require('os');
 
 ///
 /// Download Distribution Tool
