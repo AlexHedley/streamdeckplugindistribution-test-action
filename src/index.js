@@ -72,7 +72,8 @@ async function downloadDistributionTool () {
             core.info(`myOutput: ${myOutput}`);
             core.info(`myError: ${myError}`);
 
-            const plugin_path = core.getInput("plugin_path");
+            const plugin_path = core.getInput("plugin_path"); // src\com.elgato.counter.sdPlugin
+            // TODO: swap \ for / depending on OS.
             // /work/ - Checkout puts in this folder.
             //DistributionTool.exe -b -i com.elgato.counter.sdPlugin -o output
             //DistributionTool.exe -b -i "..\work\src\com.elgato.counter.sdPlugin" -o "..\output"
@@ -94,6 +95,16 @@ async function downloadDistributionTool () {
             await exec.exec('cmd', ['/c', 'dir'], options);
             core.info(`myOutput: ${myOutput}`);
             core.info(`myError: ${myError}`);
+
+            var file = plugin_path.split("\\");
+            var fileArray = file[1].split(".");
+            fileArray.pop();
+            const pluginName = fileArray.join(".");
+            core.info(`pluginName: ${pluginName}`);
+
+            const outputPath = `${outputPath}\\${pluginName}.streamDeckPlugin`;
+            // C:\Users\runneradmin\output\com.elgato.counter.streamDeckPlugin
+            core.setOutput("plugin_output_path", outputPath);
         }
         else if (process.platform === 'darwin') {
             core.info('attempting download of mac dist tool');

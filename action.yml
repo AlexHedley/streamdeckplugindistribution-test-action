@@ -6,6 +6,9 @@ inputs:
     required: false
     #required: true
     #default: 'hello-world.sdPlugin'
+outputs:
+  plugin_output_path: # id of output
+    description: 'The .streamDeckPlugin path'
 runs:
   using: 'node12'
   main: 'src/index.js'
