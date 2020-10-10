@@ -35,12 +35,7 @@ options.listeners = {
 ///
 async function downloadDistributionTool () {
 
-    try {
-        console.log("Running action");
-        core.debug('debug message');
-        core.warning('warning message');
-        core.info('info message');
-    
+    try {    
         core.info(`Process Platform: ${process.platform}`);
 
         if (process.platform === 'win32') {
@@ -65,7 +60,7 @@ async function downloadDistributionTool () {
             destPath = `${homedir}/disttool/`;
             
             const distributionToolPath = await tc.downloadTool('https://developer.elgato.com/documentation/stream-deck/distributiontool/DistributionToolMac.zip');
-            const distributionToolExtractedFolder = await tc.extractXar(distributionToolPath, `${homedir}/disttool`);
+            const distributionToolExtractedFolder = await tc.extractZip(distributionToolPath, `${homedir}/disttool`);
             
             toolName = executableFileName;
 
@@ -180,6 +175,11 @@ async function createDistribution() {
 /// RUN
 
 async function run () {
+    console.log("Running action");
+    //core.debug('debug message');
+    //core.warning('warning message');
+    //core.info('info message');
+
     core.info('run started');
 
     try {
