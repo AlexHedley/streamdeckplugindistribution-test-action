@@ -116,6 +116,26 @@ async function listDir(directory) {
     core.info(`myError: ${myError}`);
 }
 
+//
+// Create folder
+//
+async function createFolderForPlatform() {
+    let outputPath = '';
+    
+    if (process.platform === 'win32') {
+        //await exec.exec('cmd', ['/c', 'mkdir', 'output'], options);
+        outputPath = `${homedir}\\output\\`;
+    } else if (process.platform === 'darwin') {
+        outputPath = `${homedir}/output/`;
+    } else {
+    }
+
+    await io.mkdirP(outputPath);
+
+    return outputPath;
+}
+
+
 /// RUN
 
 async function run () {
@@ -157,10 +177,12 @@ async function run () {
             }
         };
 
-        // Create an output folder
-        //await exec.exec('cmd', ['/c', 'mkdir', 'output'], options);
-        const outputPath = `${homedir}\\output\\`;
-        await io.mkdirP(outputPath);
+        // // Create an output folder
+        // //await exec.exec('cmd', ['/c', 'mkdir', 'output'], options);
+        // const outputPath = `${homedir}\\output\\`;
+        // await io.mkdirP(outputPath);
+        
+        const outputPath = await createFolderForPlatform();
         
         options.cwd = destPath;
         await exec.exec('cmd', ['/c', toolName, '-b', '-i', `${process.env.GITHUB_WORKSPACE}\\${plugin_path}`, '-o', '..\\output'], options);
