@@ -10,6 +10,10 @@ const os = require('os');
 const executableFileName = "DistributionTool";
 const version = '1.0.0';
 
+const homedir = os.homedir();
+core.info(`homedir: ${homedir}`);
+//await io.mkdirP('path/to/make');
+
 ///
 /// Download Distribution Tool
 ///
@@ -22,11 +26,7 @@ async function downloadDistributionTool () {
         core.info('info message');
     
         core.info(`Process Platform: ${process.platform}`);
-    
-        const homedir = os.homedir();
-        core.info(`homedir: ${homedir}`);
-        //await io.mkdirP('path/to/make');
-    
+
         if (process.platform === 'win32') {
             core.info('attempting download of win dist tool');
 
@@ -38,6 +38,7 @@ async function downloadDistributionTool () {
 
             // Cache
             const cachedPath = await tc.cacheFile(distributionToolExtractedFolder, `${executableFileName}.exe`, executableFileName, version);
+            core.info(`cachedPath: ${cachedPath}`);
         }
         else if (process.platform === 'darwin') {
             core.info('attempting download of mac dist tool');
