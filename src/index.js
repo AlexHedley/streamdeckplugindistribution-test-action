@@ -71,6 +71,24 @@ async function downloadDistributionTool () {
     }
 
 }
+
+//
+// Get Exe Name For Platform
+//
+function getExeNameForPlatform () {
+    let exeName = '';
+
+    if (process.platform === 'win32') {
+        exeName = 'DistributionTool.exe';
+    } else if (process.platform === 'darwin') {
+        exeName = 'DistributionTool'
+    } else {
+        exeName = '';
+    }
+
+    return exeName;
+}
+
 /// RUN
 
 async function run () {
@@ -83,7 +101,9 @@ async function run () {
 
         core.info(`GITHUB_WORKSPACE: ${process.env.GITHUB_WORKSPACE}`);
         
-        let toolPath = await tc.find(executableFileName, version);
+        var exeName = getExeNameForPlatform();
+
+        let toolPath = await tc.find(exeName, version);
         core.info(`toolPath: ${toolPath}`);
 
 		if (!toolPath) {
