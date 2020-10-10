@@ -15,8 +15,7 @@ const homedir = os.homedir();
 core.info(`homedir: ${homedir}`);
 //await io.mkdirP('path/to/make');
 
-const destPath;
-
+const destPath = '';
 
 ///
 /// Download Distribution Tool
