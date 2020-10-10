@@ -102,6 +102,7 @@ function getExeNameForPlatform () {
     return exeName;
 }
 
+
 //
 // List Directory
 //
@@ -115,6 +116,23 @@ async function listDir(directory) {
     core.info(`myOutput: ${myOutput}`);
     core.info(`myError: ${myError}`);
 }
+
+
+//
+// Fix Path For Platform
+//
+function fixPathForPlatform(path) {
+
+    if (process.platform === 'win32') {
+        path = path.replace("/", "\\")
+    } else if (process.platform === 'darwin') {
+        path = path.replace("\\", "/")
+    } else {
+    }
+
+    return path;
+}
+
 
 //
 // Create folder
@@ -167,6 +185,8 @@ async function run () {
     try {
 
         plugin_path = core.getInput("plugin_path"); // src\com.elgato.counter.sdPlugin
+        core.info(`plugin_path: ${plugin_path}`);
+        plugin_path = fixPathForPlatform(plugin_path);
         core.info(`plugin_path: ${plugin_path}`);
 
         core.info(`GITHUB_WORKSPACE: ${process.env.GITHUB_WORKSPACE}`);
