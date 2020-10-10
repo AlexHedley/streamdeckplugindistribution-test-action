@@ -17,6 +17,18 @@ core.info(`homedir: ${homedir}`);
 let destPath = '';
 let toolName = '';
 
+let myOutput = '';
+let myError = '';
+const options = {};
+options.listeners = {
+    stdout: (data) => {
+        myOutput += data.toString();
+    },
+    stderr: (data) => {
+        myError += data.toString();
+    }
+};
+
 ///
 /// Download Distribution Tool
 ///
@@ -95,19 +107,6 @@ function getExeNameForPlatform () {
 async function listDir(directory) {
     //C:\hostedtoolcache\windows\DistributionTool\1.0.0\x64
 
-    let myOutput = '';
-    let myError = '';
-
-    const options = {};
-    options.listeners = {
-        stdout: (data) => {
-            myOutput += data.toString();
-        },
-        stderr: (data) => {
-            myError += data.toString();
-        }
-    };
-    // Home Folder
     core.info(`directory: ${directory}`);
     options.cwd = directory;
     
@@ -136,6 +135,29 @@ async function createFolderForPlatform() {
 }
 
 
+//
+// Create Distribution
+//
+async function createDistribution() {
+    
+    options.cwd = destPath;
+    
+    if (process.platform === 'win32') {
+        
+        await exec.exec('cmd', ['/c', toolName, '-b', '-i', `${process.env.GITHUB_WORKSPACE}\\${plugin_path}`, '-o', '..\\output'], options);    
+
+    } else if (process.platform === 'darwin') {
+        
+        await exec.exec(toolName, ['-b', '-i', `${process.env.GITHUB_WORKSPACE}/${plugin_path}`, '-o', '../output'], options);    
+
+    } else {
+    }
+
+    core.info(`myOutput: ${myOutput}`);
+    core.info(`myError: ${myError}`);
+    
+}
+
 /// RUN
 
 async function run () {
@@ -162,6 +184,7 @@ async function run () {
         else {
             core.info('Use from Cache');
             destPath = toolPath; //?
+            toolName = ""; //TODO get toolname from cache
         }
 
         let myOutput = '';
@@ -181,13 +204,11 @@ async function run () {
         // //await exec.exec('cmd', ['/c', 'mkdir', 'output'], options);
         // const outputPath = `${homedir}\\output\\`;
         // await io.mkdirP(outputPath);
-        
+
         const outputPath = await createFolderForPlatform();
+        core.info(`outputPath: ${outputPath}`);
         
-        options.cwd = destPath;
-        await exec.exec('cmd', ['/c', toolName, '-b', '-i', `${process.env.GITHUB_WORKSPACE}\\${plugin_path}`, '-o', '..\\output'], options);
-        core.info(`myOutput: ${myOutput}`);
-        core.info(`myError: ${myError}`);
+        await createDistribution();
         
         var file = plugin_path.split("\\");
         var fileArray = file[1].split(".");
