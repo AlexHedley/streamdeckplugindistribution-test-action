@@ -77,7 +77,7 @@ async function downloadDistributionTool () {
             //DistributionTool.exe -b -i com.elgato.counter.sdPlugin -o output
             //DistributionTool.exe -b -i "..\work\src\com.elgato.counter.sdPlugin" -o "..\output"
             options.cwd = destPath;
-            await exec.exec('cmd', ['/c', 'DistributionTool.exe', '-b', '-i', `..\\work\\${plugin_path}`, '-o', '..\\output'], options);
+            await exec.exec('cmd', ['/c', 'DistributionTool.exe', '-b', '-i', `${process.env.GITHUB_WORKSPACE}\\${plugin_path}`, '-o', '..\\output'], options);
             core.info(`myOutput: ${myOutput}`);
             core.info(`myError: ${myError}`);
             
