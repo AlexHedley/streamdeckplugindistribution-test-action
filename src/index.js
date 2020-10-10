@@ -30,10 +30,11 @@ async function downloadDistributionTool () {
 
             const distributionToolPath = await tc.downloadTool(' https://developer.elgato.com/documentation/stream-deck/distributiontool/DistributionToolWindows.zip');
             const distributionToolExtractedFolder = await tc.extractZip(distributionToolPath, destPath);
+            core.info(`distributionToolExtractedFolder: ${distributionToolExtractedFolder}`);
 
             //await exec.exec('DistributionTool.exe /?');
             //await exec.exec(`${destPath}DistributionTool.exe /?`);
-
+            
             let myOutput = '';
             let myError = '';
 
@@ -58,19 +59,19 @@ async function downloadDistributionTool () {
             const outputPath = `${homedir}\\output\\`;
             await io.mkdirP(outputPath);
             
-            // Home Folder
-            core.info('HOME');
-            options.cwd = homedir;
-            await exec.exec('cmd', ['/c', 'dir'], options);
-            core.info(`myOutput: ${myOutput}`);
-            core.info(`myError: ${myError}`);
+            // // Home Folder
+            // core.info('HOME');
+            // options.cwd = homedir;
+            // await exec.exec('cmd', ['/c', 'dir'], options);
+            // core.info(`myOutput: ${myOutput}`);
+            // core.info(`myError: ${myError}`);
 
-            // Distribution Tool Folder
-            core.info('DISTTOOL');
-            options.cwd = destPath;
-            await exec.exec('cmd', ['/c', 'dir'], options);
-            core.info(`myOutput: ${myOutput}`);
-            core.info(`myError: ${myError}`);
+            // // Distribution Tool Folder
+            // core.info('DISTTOOL');
+            // options.cwd = destPath;
+            // await exec.exec('cmd', ['/c', 'dir'], options);
+            // core.info(`myOutput: ${myOutput}`);
+            // core.info(`myError: ${myError}`);
 
             const plugin_path = core.getInput("plugin_path"); // src\com.elgato.counter.sdPlugin
             // TODO: swap \ for / depending on OS.
@@ -89,12 +90,12 @@ async function downloadDistributionTool () {
             //The workspace directory is a copy of your repository if your workflow uses the actions/checkout action.
             //If you don't use the actions/checkout action, the directory will be empty. For example, /home/runner/work/my-repo-name/my-repo-name.
 
-            // Output Folder
-            core.info('OUTPUT');
-            options.cwd = outputPath;
-            await exec.exec('cmd', ['/c', 'dir'], options);
-            core.info(`myOutput: ${myOutput}`);
-            core.info(`myError: ${myError}`);
+            // // Output Folder
+            // core.info('OUTPUT');
+            // options.cwd = outputPath;
+            // await exec.exec('cmd', ['/c', 'dir'], options);
+            // core.info(`myOutput: ${myOutput}`);
+            // core.info(`myError: ${myError}`);
 
             var file = plugin_path.split("\\");
             var fileArray = file[1].split(".");
@@ -102,9 +103,9 @@ async function downloadDistributionTool () {
             const pluginName = fileArray.join(".");
             core.info(`pluginName: ${pluginName}`);
 
-            const outputPath = `${outputPath}\\${pluginName}.streamDeckPlugin`;
+            const pluginOutputPath = `${outputPath}\\${pluginName}.streamDeckPlugin`;
             // C:\Users\runneradmin\output\com.elgato.counter.streamDeckPlugin
-            core.setOutput("plugin_output_path", outputPath);
+            core.setOutput("plugin_output_path", pluginOutputPath);
         }
         else if (process.platform === 'darwin') {
             core.info('attempting download of mac dist tool');
