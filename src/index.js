@@ -89,6 +89,30 @@ function getExeNameForPlatform () {
     return exeName;
 }
 
+function listDir(directory) {
+    //C:\hostedtoolcache\windows\DistributionTool\1.0.0\x64
+
+    let myOutput = '';
+    let myError = '';
+
+    const options = {};
+    options.listeners = {
+        stdout: (data) => {
+            myOutput += data.toString();
+        },
+        stderr: (data) => {
+            myError += data.toString();
+        }
+    };
+    // Home Folder
+    core.info(`directory: ${directory}`);
+    options.cwd = directory;
+    
+    await exec.exec('cmd', ['/c', 'dir'], options);
+    core.info(`myOutput: ${myOutput}`);
+    core.info(`myError: ${myError}`);
+}
+
 /// RUN
 
 async function run () {
@@ -102,6 +126,8 @@ async function run () {
         core.info(`GITHUB_WORKSPACE: ${process.env.GITHUB_WORKSPACE}`);
         
         var exeName = getExeNameForPlatform();
+
+        listDir('C:\\hostedtoolcache\\windows\\DistributionTool\\1.0.0\\x64');
 
         let toolPath = await tc.find(exeName, version);
         core.info(`toolPath: ${toolPath}`);
