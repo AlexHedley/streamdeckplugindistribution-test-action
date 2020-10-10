@@ -207,6 +207,8 @@ async function run () {
             destPath = toolPath; //?
             toolName = ""; //TODO get toolname from cache
         }
+        
+        core.info(`toolName: ${toolName}`);
 
         let myOutput = '';
         let myError = '';
