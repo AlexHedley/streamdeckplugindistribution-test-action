@@ -63,7 +63,7 @@ async function run () {
 
     try {
 
-        const plugin_path = core.getInput("plugin_path");
+        const plugin_path = core.getInput("plugin_path"); // src\com.elgato.counter.sdPlugin
         core.info(`plugin_path: ${plugin_path}`);
 
         core.info(`GITHUB_WORKSPACE: ${process.env.GITHUB_WORKSPACE}`);
@@ -121,7 +121,7 @@ async function run () {
         // core.info(`myOutput: ${myOutput}`);
         // core.info(`myError: ${myError}`);
 
-        const plugin_path = core.getInput("plugin_path"); // src\com.elgato.counter.sdPlugin
+        //const plugin_path = core.getInput("plugin_path"); // src\com.elgato.counter.sdPlugin
         // TODO: swap \ for / depending on OS.
         // /work/ - Checkout puts in this folder.
         //DistributionTool.exe -b -i com.elgato.counter.sdPlugin -o output
