@@ -26,10 +26,13 @@ async function downloadDistributionTool () {
         if (process.platform === 'win32') {
             core.info('attempting download of win dist tool');
             
-            const destPath = `${homedir}\\disttool`;
+            const destPath = `${homedir}\\disttool\\`;
 
             const distributionToolPath = await tc.downloadTool(' https://developer.elgato.com/documentation/stream-deck/distributiontool/DistributionToolWindows.zip');
             const distributionToolExtractedFolder = await tc.extractZip(distributionToolPath, destPath);
+
+            //await exec.exec('DistributionTool.exe /?');
+            //await exec.exec(`${destPath}DistributionTool.exe /?`);
 
             let myOutput = '';
             let myError = '';
@@ -43,9 +46,9 @@ async function downloadDistributionTool () {
                     myError += data.toString();
                 }
             };
-            options.cwd = destPath; //`${homedir}\disttool`;
+            options.cwd = destPath; //`${homedir}\disttool\\`;
 
-            await exec.exec('cmd', ['DistributionTool.exe', '/?'], options);
+            await exec.exec('cmd', ['/k', 'DistributionTool.exe', '/?'], options);
             core.info(`myOutput: ${myOutput}`);
             core.info(`myError: ${myError}`);
         }
