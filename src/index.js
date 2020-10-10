@@ -8,6 +8,7 @@ const os = require('os');
 
 //const cachedFileName = "DistributionTool.exe";
 const executableFileName = "DistributionTool";
+const executableFileNameWin = "DistributionTool.exe";
 const version = '1.0.0';
 
 const homedir = os.homedir();
@@ -37,8 +38,7 @@ async function downloadDistributionTool () {
             core.info(`distributionToolExtractedFolder: ${distributionToolExtractedFolder}`);
 
             // Cache
-            //const cachedPath = await tc.cacheFile(distributionToolExtractedFolder, `${executableFileName}.exe`, executableFileName, version);
-            const cachedPath = await tc.cacheFile(`${distributionToolExtractedFolder}${executableFileName}`, `${executableFileName}.exe`, executableFileName, version);
+            const cachedPath = await tc.cacheFile(`${distributionToolExtractedFolder}${executableFileNameWin}`, executableFileNameWin, executableFileName, version);
             core.info(`cachedPath: ${cachedPath}`);
         }
         else if (process.platform === 'darwin') {
@@ -46,6 +46,10 @@ async function downloadDistributionTool () {
     
             const distributionToolPath = await tc.downloadTool('https://developer.elgato.com/documentation/stream-deck/distributiontool/DistributionToolMac.zip');
             const distributionToolExtractedFolder = await tc.extractXar(distributionToolPath, `${homedir}/disttool`);
+            
+            // Cache
+            const cachedPath = await tc.cacheFile(`${distributionToolExtractedFolder}${executableFileNameWin}`, executableFileName, executableFileName, version);
+            core.info(`cachedPath: ${cachedPath}`);
         }
         else {
             // Linux?
