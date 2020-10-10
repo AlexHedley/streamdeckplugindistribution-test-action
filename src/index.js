@@ -15,6 +15,9 @@ const homedir = os.homedir();
 core.info(`homedir: ${homedir}`);
 //await io.mkdirP('path/to/make');
 
+const destPath;
+
+
 ///
 /// Download Distribution Tool
 ///
@@ -31,7 +34,7 @@ async function downloadDistributionTool () {
         if (process.platform === 'win32') {
             core.info('attempting download of win dist tool');
 
-            const destPath = `${homedir}\\disttool\\`;
+            destPath = `${homedir}\\disttool\\`;
 
             const distributionToolPath = await tc.downloadTool(' https://developer.elgato.com/documentation/stream-deck/distributiontool/DistributionToolWindows.zip');
             const distributionToolExtractedFolder = await tc.extractZip(distributionToolPath, destPath);
@@ -44,6 +47,8 @@ async function downloadDistributionTool () {
         else if (process.platform === 'darwin') {
             core.info('attempting download of mac dist tool');
     
+            destPath = `${homedir}/disttool/`;
+            
             const distributionToolPath = await tc.downloadTool('https://developer.elgato.com/documentation/stream-deck/distributiontool/DistributionToolMac.zip');
             const distributionToolExtractedFolder = await tc.extractXar(distributionToolPath, `${homedir}/disttool`);
             
@@ -84,6 +89,7 @@ async function run () {
 		}
         else {
             core.info('Use from Cache');
+            destPath = toolPath; //?
         }
 
         //await exec.exec('DistributionTool.exe /?');
