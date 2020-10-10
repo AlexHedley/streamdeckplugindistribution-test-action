@@ -48,11 +48,11 @@ async function downloadDistributionTool () {
             };
             options.cwd = destPath; //`${homedir}\\disttool\\`;
 
-            await exec.exec('cmd', ['/k', 'DistributionTool.exe', '/?'], options);
+            //await exec.exec('cmd', ['/k', 'DistributionTool.exe', '/?'], options);
             //await exec.exec('cmd', ['/c', 'DistributionTool.exe', '/?'], options);
-            core.info(`myOutput: ${myOutput}`);
-            core.info(`myError: ${myError}`);
-                        
+            //core.info(`myOutput: ${myOutput}`);
+            //core.info(`myError: ${myError}`);
+                      
             // Create an output folder
             //await exec.exec('cmd', ['c', 'mkdir', 'output'], options);
             await io.mkdirP(`${homedir}\\output\\`);
@@ -64,7 +64,7 @@ async function downloadDistributionTool () {
             await exec.exec('cmd', ['/k', 'DistributionTool.exe', '-b', '-i', `..\\work\\${plugin_path}`, '-o', '..\\output'], options);
             core.info(`myOutput: ${myOutput}`);
             core.info(`myError: ${myError}`);
-
+            
             await exec.exec('cmd', ['/k', 'dir', '..\\output'], options);
             core.info(`myOutput: ${myOutput}`);
             core.info(`myError: ${myError}`);
