@@ -18,8 +18,8 @@
   },
   "homepage": "https://github.com/AlexHedley/streamdeckplugindistribution-test-action#readme",
   "dependencies": {
-    "@actions/core": "^1.2.6",
-    "@actions/github": "^4.0.0",
-    "@actions/tool-cache": "^1.6.0"
+    "@actions/core": "^1.11.1",
+    "@actions/github": "^9.1.1",
+    "@actions/tool-cache": "^4.0.0"
   }
 }
